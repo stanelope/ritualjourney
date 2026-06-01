@@ -182,6 +182,7 @@ Ritual is building the infrastructure for decentralized AI, enabling intelligent
 
 * Ritual Academy Links
 * Ritual Discord Roles
+* NFT Projects
 
 ---
   
