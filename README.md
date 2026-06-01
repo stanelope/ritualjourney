@@ -178,6 +178,13 @@ Ritual is building the infrastructure for decentralized AI, enabling intelligent
 
 ---
 
+# 📚 Next Important Matters on Ritual Network 
+
+* Ritual Academy Links
+* Ritual Discord Roles
+
+---
+  
 # 🤝 Our Mission
 
 To create a welcoming environment where people can:
