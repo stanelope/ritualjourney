@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritual Journey • Ritual Network dApp</title>
+    <meta name="description" content="Ritual Journey — A collaborative Web3 + AI dApp by Stanelope for the Ritual Network. Onboard, connect, share journeys, and hang out in the decentralized AI ecosystem.">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;defs&gt;&lt;linearGradient id='g' x1='0' y1='0' x2='1' y2='1'&gt;&lt;stop offset='0%' stop-color='%23111827'/%&gt;&lt;stop offset='100%' stop-color='%23334155'/%&gt;&lt;/linearGradient&gt;&lt;/defs&gt;&lt;rect width='100' height='100' rx='20' fill='url(%23g)'/&gt;&lt;path d='M25 35 Q50 20 75 35 Q50 55 25 35' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' opacity='0.9' /&gt;&lt;circle cx='30' cy='32' r='5' fill='white' opacity='0.95' /&gt;&lt;circle cx='70' cy='32' r='5' fill='white' opacity='0.95' /&gt;&lt;circle cx='50' cy='48' r='6' fill='white' opacity='0.95' /&gt;&lt;/svg&gt;">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap');
+        
+        :root {
+            --accent: #111827;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .font-barlow {
+            font-family: 'Barlow', 'Inter', system_ui, sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .section-header {
+            font-family: 'Barlow', 'Inter', system_ui, sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+        }
+
+        .ritual-shadow {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .ritual-shadow:hover {
+            box-shadow: 0 20px 25px -5px rgb(15 23 42 / 0.08), 
+                       0 8px 10px -6px rgb(15 23 42 / 0.08);
+            transform: translateY(-1px);
+        }
+
+        .nav-link {
+            transition: all 0.15s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #111827;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #111827;
+            transition: width 0.2s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .resource-link {
+            transition: all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+            border-radius: 8px;
+            padding: 6px 10px;
+            margin: 1px 0;
+        }
+        
+        .resource-link:hover {
+            background-color: #f8fafc;
+            color: #0f172a;
+            box-shadow: 0 4px 6px -1px rgb(15 23 42 / 0.07), 0 2px 4px -2px rgb(15 23 42 / 0.07);
+            transform: translateX(2px);
+        }
+
+        .modal {
+            animation: modalPopIn 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalPopIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .preview-pane {
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            min-height: 420px;
+        }
+
+        .feature-card {
+            transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                        box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(15 23 42 / 0.1), 
+                       0 8px 10px -6px rgb(15 23 42 / 0.1);
+        }
+
+        .connect-card {
+            transition: all 0.2s ease;
+        }
+        
+        .connect-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(15 23 42 / 0.1), 
+                       0 4px 6px -4px rgb(15 23 42 / 0.1);
+        }
+
+        .subtle-gradient {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        .ritual-logo {
+            filter: drop-shadow(0 4px 6px rgb(15 23 42 / 0.1));
+        }
+
+        .metric {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .dapp-demo {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .sidebar-category summary {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .sidebar-category summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        .sidebar-category[open] summary .chevron {
+            transform: rotate(180deg);
+        }
+
+        .toast {
+            animation: toastSlideIn 0.3s ease forwards;
+        }
+
+        .chain-badge {
+            background: linear-gradient(90deg, #f1f5f9, #e2e8f0);
+            border: 1px solid #cbd5e1;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+    <!-- Top Header / Navbar -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="px-8 py-4 flex items-center justify-between">
+                <!-- Logo + Title -->
+                <div class="flex items-center gap-x-3.5">
+                    <!-- Custom Ritual Journey Logo (SVG inspired by Ritual geometric knot + journey path) -->
+                    <div class="flex items-center justify-center w-11 h-11 ritual-logo">
+                        <svg width="44" height="44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="logoGrad" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#111827"/>
+                                    <stop offset="100%" stop-color="#334155"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Outer frame -->
+                            <rect x="8" y="8" width="84" height="84" rx="18" ry="18" fill="url(#logoGrad)" stroke="#0f172a" stroke-width="3"/>
+                            <!-- Inner ritual knot / journey path -->
+                            <path d="M25 28 Q38 18 55 28 Q72 38 78 55 Q65 72 48 65 Q30 58 25 42" fill="none" stroke="#f8fafc" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+                            <!-- Nodes representing AI + Chain + Journey -->
+                            <circle cx="25" cy="28" r="6.5" fill="#f8fafc"/>
+                            <circle cx="78" cy="55" r="6.5" fill="#f8fafc"/>
+                            <circle cx="48" cy="65" r="7.5" fill="#f8fafc"/>
+                            <!-- Small accent nodes -->
+                            <circle cx="55" cy="28" r="3" fill="#64748b"/>
+                            <circle cx="30" cy="42" r="2.5" fill="#64748b"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="flex items-baseline gap-x-2">
+                            <span class="font-barlow text-3xl font-bold tracking-tighter text-slate-950">RITUAL JOURNEY</span>
+                            <span class="px-2.5 py-0.5 text-[10px] font-mono font-medium tracking-[2px] bg-slate-100 text-slate-500 rounded-full border border-slate-200">dAPP</span>
+                        </div>
+                        <div class="text-[10px] text-slate-500 -mt-0.5 font-medium tracking-widest">BY STANELOPE • RITUAL NETWORK MEMBER</div>
+                    </div>
+                </div>
+
+                <!-- Header Nav + Actions -->
+                <div class="flex items-center gap-x-2">
+                    <!-- dApps Theme Toggle (White / Dark mode for dApp UI) -->
+                    <div class="hidden md:flex items-center bg-slate-100 rounded-3xl p-1 border border-slate-200">
+                        <button onclick="setDappTheme('white')" id="theme-white-btn"
+                                class="px-4 py-1.5 text-xs font-semibold rounded-3xl flex items-center gap-x-1.5 bg-white shadow-sm border border-slate-200 text-slate-700 active:scale-[0.985]">
+                            <span>WHITE</span>
+                        </button>
+                        <button onclick="setDappTheme('dark')" id="theme-dark-btn"
+                                class="px-4 py-1.5 text-xs font-semibold rounded-3xl flex items-center gap-x-1.5 text-slate-500 hover:text-slate-700">
+                            <span>DARK</span>
+                        </button>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="flex items-center gap-x-1 pr-2 border-r border-slate-200">
+                        <a href="https://x.com/ritualnet" target="_blank" 
+                           class="w-9 h-9 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-2xl transition-colors"
+                           title="Ritual Network on X">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.244 2.25l-7.451 8.502L4.5 2.25H1.5l7.5 8.5L1.5 21.75h3l7.5-8.5 7.5 8.5h3l-7.5-8.5L21.75 2.25h-3.506z"/>
+                            </svg>
+                        </a>
+                        <a href="https://discord.com/invite/ritual-net" target="_blank"
+                           class="w-9 h-9 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-2xl transition-colors"
+                           title="Ritual Network Discord">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.127c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.1.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.834 19.834 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Connect / User Status -->
+                    <div id="header-user-section">
+                        <button onclick="showConnectModal()"
+                                class="px-5 py-2 text-sm font-semibold rounded-3xl bg-slate-900 hover:bg-black text-white flex items-center gap-x-2 shadow-sm hover:shadow-md active:scale-[0.985] transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2" />
+                            </svg>
+                            <span>Connect</span>
+                        </button>
+                    </div>
+
+                    <!-- Global Theme Toggle -->
+                    <button onclick="toggleGlobalTheme()" id="global-theme-toggle"
+                            class="w-9 h-9 flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-2xl transition-colors ml-1"
+                            title="Toggle dark mode">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-screen-2xl mx-auto flex">
+        
+        <!-- COLLAPSIBLE SIDEBAR: Official + Community Resources -->
+        <aside class="hidden lg:block w-72 xl:w-80 border-r border-slate-200 bg-white min-h-[calc(100vh-73px)] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4 px-1">
+                    <div>
+                        <span class="font-semibold text-sm tracking-widest text-slate-500">RESOURCES</span>
+                    </div>
+                    <div class="text-[10px] px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded font-mono">LIVE</div>
+                </div>
+
+                <!-- Official Resources -->
+                <details class="sidebar-category group mb-1" open>
+                    <summary class="flex items-center justify-between px-3 py-2 text-sm font-semibold text-slate-700 hover:text-slate-950">
+                        <span class="flex items-center gap-x-2">
+                            <span>📜</span> 
+                            <span>Official Resources</span>
+                        </span>
+                        <span class="chevron text-slate-400 transition-transform">⌄</span>
+                    </summary>
+                    <ul class="pl-4 mt-1 space-y-px text-sm">
+                        <li><a href="https://ritual.net/" target="_blank" data-preview="ritual-net" onmouseenter="showPreview('ritual-net')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Ritual Network</a></li>
+                        <li><a href="https://www.ritualfoundation.org/" target="_blank" data-preview="foundation" onmouseenter="showPreview('foundation')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Ritual Foundation</a></li>
+                        <li><a href="https://www.ritualfoundation.org/team" target="_blank" data-preview="team" onmouseenter="showPreview('team')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Team</a></li>
+                        <li><a href="https://whitepaper.ritualfoundation.org/" target="_blank" data-preview="whitepaper" onmouseenter="showPreview('whitepaper')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Whitepaper</a></li>
+                        <li><a href="https://docs.ritualfoundation.org/" target="_blank" data-preview="docs" onmouseenter="showPreview('docs')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Documentation</a></li>
+                        <li><a href="https://skills.ritualfoundation.org/" target="_blank" data-preview="skills" onmouseenter="showPreview('skills')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Skills Hub</a></li>
+                        <li><a href="https://www.ritualfoundation.org/blog" target="_blank" data-preview="blog" onmouseenter="showPreview('blog')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Blog</a></li>
+                    </ul>
+                </details>
+
+                <!-- Community Links -->
+                <details class="sidebar-category group mb-1">
+                    <summary class="flex items-center justify-between px-3 py-2 text-sm font-semibold text-slate-700 hover:text-slate-950">
+                        <span class="flex items-center gap-x-2">
+                            <span>🌐</span> 
+                            <span>Community Links</span>
+                        </span>
+                        <span class="chevron text-slate-400 transition-transform">⌄</span>
+                    </summary>
+                    <ul class="pl-4 mt-1 space-y-px text-sm">
+                        <li><a href="https://x.com/ritualfnd" target="_blank" data-preview="x-fnd" onmouseenter="showPreview('x-fnd')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">X (Ritual Foundation)</a></li>
+                        <li><a href="https://x.com/ritualnet" target="_blank" data-preview="x-net" onmouseenter="showPreview('x-net')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">X (Ritual Network)</a></li>
+                        <li><a href="https://discord.com/invite/ritual-net" target="_blank" data-preview="discord" onmouseenter="showPreview('discord')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Discord</a></li>
+                        <li><a href="https://t.me/ritualchain" target="_blank" data-preview="telegram" onmouseenter="showPreview('telegram')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Telegram</a></li>
+                        <li><a href="https://www.linkedin.com/company/ritual-foundation/" target="_blank" data-preview="linkedin" onmouseenter="showPreview('linkedin')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">LinkedIn</a></li>
+                        <li><a href="https://github.com/ritual-foundation" target="_blank" data-preview="github" onmouseenter="showPreview('github')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">GitHub</a></li>
+                    </ul>
+                </details>
+
+                <!-- Brand Resources -->
+                <details class="sidebar-category group mb-1">
+                    <summary class="flex items-center justify-between px-3 py-2 text-sm font-semibold text-slate-700 hover:text-slate-950">
+                        <span class="flex items-center gap-x-2">
+                            <span>🎨</span> 
+                            <span>Brand Resources</span>
+                        </span>
+                        <span class="chevron text-slate-400 transition-transform">⌄</span>
+                    </summary>
+                    <ul class="pl-4 mt-1 space-y-px text-sm">
+                        <li><a href="https://marshy-ermine-6e0.notion.site/Brand-Kit-28880470e38546d1a870b8f2cf903213" target="_blank" data-preview="brandkit" onmouseenter="showPreview('brandkit')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Ritual Brand Kit</a></li>
+                        <li><a href="https://siggyhalloween-ritual.xyz/" target="_blank" data-preview="siggy" onmouseenter="showPreview('siggy')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Official Siggy Mascot</a></li>
+                    </ul>
+                </details>
+
+                <!-- Testnet Links -->
+                <details class="sidebar-category group mb-1">
+                    <summary class="flex items-center justify-between px-3 py-2 text-sm font-semibold text-slate-700 hover:text-slate-950">
+                        <span class="flex items-center gap-x-2">
+                            <span>⛽</span> 
+                            <span>Testnet &amp; Faucet</span>
+                        </span>
+                        <span class="chevron text-slate-400 transition-transform">⌄</span>
+                    </summary>
+                    <ul class="pl-4 mt-1 space-y-px text-sm">
+                        <li><a href="https://faucet.ritualfoundation.org/" target="_blank" data-preview="faucet" onmouseenter="showPreview('faucet')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Testnet Faucet</a></li>
+                        <li><a href="https://explorer.ritualfoundation.org/" target="_blank" data-preview="explorer" onmouseenter="showPreview('explorer')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Block Explorer</a></li>
+                        <li><a href="https://docs.ritualfoundation.org/llms-full.txt" target="_blank" data-preview="llms" onmouseenter="showPreview('llms')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Full LLM Docs</a></li>
+                    </ul>
+                </details>
+
+                <!-- dApps Directory -->
+                <details class="sidebar-category group">
+                    <summary class="flex items-center justify-between px-3 py-2 text-sm font-semibold text-slate-700 hover:text-slate-950">
+                        <span class="flex items-center gap-x-2">
+                            <span>📚</span> 
+                            <span>dApps Directory</span>
+                        </span>
+                        <span class="chevron text-slate-400 transition-transform">⌄</span>
+                    </summary>
+                    <ul class="pl-4 mt-1 space-y-px text-sm">
+                        <li><a href="https://docs.google.com/spreadsheets/d/1-71yrtMqSRCTAvmshY2K_wDSYproX7GQFybKwkC5IFM/edit?gid=0#gid=0" target="_blank" data-preview="dapps-dir" onmouseenter="showPreview('dapps-dir')" class="resource-link flex items-center gap-x-2 text-slate-600 hover:text-slate-950 w-full">Community Testnet dApps Collection</a></li>
+                    </ul>
+                </details>
+
+                <div class="mt-8 px-3">
+                    <div class="text-[10px] text-center text-slate-400 font-mono tracking-widest">CHAIN ID • 1979</div>
+                    <div class="mt-1 text-center">
+                        <span class="inline-block px-3 py-px text-emerald-600 bg-emerald-50 text-xs font-semibold rounded-full border border-emerald-100">TESTNET LIVE</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="flex-1 min-w-0">
+            <!-- Hero / Welcome -->
+            <div class="px-8 pt-10 pb-8 border-b border-slate-100 bg-white">
+                <div class="max-w-3xl">
+                    <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-slate-100 border border-slate-200 text-xs font-semibold tracking-widest mb-4">
+                        <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                        <span>POWERED BY RITUAL CHAIN • TESTNET</span>
+                    </div>
+                    
+                    <h1 class="section-header text-6xl leading-none tracking-tighter font-bold text-balance">Your journey into<br>decentralized AI starts here.</h1>
+                    
+                    <p class="mt-5 max-w-md text-lg text-slate-600">Ritual Journey is the collaborative dApp for builders, creators, and enthusiasts in the Ritual Network ecosystem. Onboard, connect with collaborators, document your Web3 + AI path, and build real relationships.</p>
+                    
+                    <div class="mt-6 flex items-center gap-x-3">
+                        <button onclick="document.getElementById('dapp-section').scrollIntoView({ behavior: 'smooth' })" 
+                                class="px-8 py-3.5 text-sm font-semibold rounded-3xl bg-slate-900 hover:bg-black text-white flex items-center gap-x-2 shadow-sm hover:shadow-xl hover:shadow-black/25 active:scale-[0.985] transition-all">
+                            Enter the dApp
+                        </button>
+                        <button onclick="showConnectModal()" 
+                                class="px-6 py-3.5 text-sm font-semibold rounded-3xl border border-slate-300 hover:bg-slate-50 flex items-center gap-x-2 text-slate-700 active:scale-[0.985]">
+                            Connect Wallet
+                        </button>
+                    </div>
+                    
+                    <div class="mt-5 flex items-center gap-x-4 text-xs">
+                        <div class="flex -space-x-1">
+                            <div class="w-6 h-6 bg-slate-200 border border-white rounded-full ring-1 ring-slate-100"></div>
+                            <div class="w-6 h-6 bg-slate-300 border border-white rounded-full ring-1 ring-slate-100"></div>
+                            <div class="w-6 h-6 bg-slate-400 border border-white rounded-full ring-1 ring-slate-100"></div>
+                        </div>
+                        <span class="text-slate-500">Joined by <span class="font-semibold text-slate-700">2,847</span> Ritual members</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resource Preview Pane -->
+            <div class="px-8 pt-8">
+                <div class="flex items-end justify-between mb-4">
+                    <div>
+                        <span class="font-semibold text-xl tracking-tight">Resource Explorer</span>
+                        <span class="ml-3 text-xs px-3 py-1 bg-slate-100 text-slate-500 rounded-2xl font-mono">HOVER SIDEBAR LINKS TO PREVIEW</span>
+                    </div>
+                    <button onclick="resetPreview()" 
+                            class="text-xs font-medium flex items-center gap-x-1 text-slate-400 hover:text-slate-600">
+                        <span>RESET PREVIEW</span>
+                    </button>
+                </div>
+                
+                <div id="preview-pane" 
+                     class="preview-pane border border-slate-200 bg-white rounded-3xl p-8 shadow-inner subtle-gradient">
+                    <!-- Dynamic content injected by JS -->
+                    <div class="flex flex-col items-center justify-center h-full text-center py-12">
+                        <div class="w-16 h-16 mx-auto mb-5 opacity-40">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#64748b">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2 2 2 0 012 2v2a2 2 0 01-2 2" />
+                            </svg>
+                        </div>
+                        <p class="text-slate-400 max-w-xs">Hover over any link in the left sidebar to instantly preview the page content here.</p>
+                        <p class="text-[10px] text-slate-400 mt-4 font-mono tracking-[1px]">RITUAL JOURNEY • BUILT BY STANELOPE</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- dApp Section -->
+            <div id="dapp-section" class="px-8 pt-12 pb-16">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <span class="font-bold text-3xl tracking-tighter section-header">Ritual Journey dApp</span>
+                        <p class="text-slate-500 mt-1">Four core experiences. Built for the Ritual Network.</p>
+                    </div>
+                    
+                    <!-- dApp White / Dark Mode Toggle -->
+                    <div class="flex items-center gap-x-2 text-xs">
+                        <span class="font-medium text-slate-500">dApp UI:</span>
+                        <div class="bg-white border border-slate-200 shadow-inner rounded-3xl p-0.5 flex text-xs">
+                            <button onclick="setDappTheme('white')" id="dapp-white-btn"
+                                    class="px-5 py-1.5 rounded-3xl font-semibold bg-white shadow-sm border border-slate-200 text-slate-800">WHITE</button>
+                            <button onclick="setDappTheme('dark')" id="dapp-dark-btn"
+                                    class="px-5 py-1.5 rounded-3xl font-semibold text-slate-500 hover:text-slate-700">DARK</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Feature Modules -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                    
+                    <!-- Ritual Onboarding -->
+                    <div onclick="enterModule('onboarding')" class="feature-card group cursor-pointer bg-white border border-slate-200 hover:border-slate-300 rounded-3xl p-6 ritual-shadow">
+                        <div class="flex justify-between items-start">
+                            <div class="w-11 h-11 flex items-center justify-center bg-emerald-100 text-emerald-600 rounded-2xl mb-5 group-hover:scale-110 transition-transform">🧭</div>
+                            <span class="text-[10px] font-mono px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded">NEW</span>
+                        </div>
+                        <h3 class="font-semibold text-xl tracking-tight">Ritual Onboarding</h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Create your on-chain identity, claim your profile, and establish your presence in the decentralized AI ecosystem.</p>
+                        <div class="mt-5 text-xs flex items-center gap-x-1.5 text-emerald-600 font-medium">
+                            <span>Start onboarding</span> 
+                            <span class="group-hover:translate-x-0.5 transition">→</span>
+                        </div>
+                    </div>
+
+                    <!-- Ritual Connect -->
+                    <div onclick="enterModule('connect')" class="feature-card group cursor-pointer bg-white border border-slate-200 hover:border-slate-300 rounded-3xl p-6 ritual-shadow">
+                        <div class="flex justify-between items-start">
+                            <div class="w-11 h-11 flex items-center justify-center bg-violet-100 text-violet-600 rounded-2xl mb-5 group-hover:scale-110 transition-transform">🤝</div>
+                        </div>
+                        <h3 class="font-semibold text-xl tracking-tight">Ritual Connect</h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Find collaborators across AI builders, smart contract devs, artists, researchers, and more. Form teams and launch projects together.</p>
+                        <div class="mt-5 text-xs flex items-center gap-x-1.5 text-violet-600 font-medium">
+                            <span>Browse collaborators</span> 
+                            <span class="group-hover:translate-x-0.5 transition">→</span>
+                        </div>
+                    </div>
+
+                    <!-- Ritual Journey -->
+                    <div onclick="enterModule('journey')" class="feature-card group cursor-pointer bg-white border border-slate-200 hover:border-slate-300 rounded-3xl p-6 ritual-shadow">
+                        <div class="flex justify-between items-start">
+                            <div class="w-11 h-11 flex items-center justify-center bg-amber-100 text-amber-600 rounded-2xl mb-5 group-hover:scale-110 transition-transform">📖</div>
+                        </div>
+                        <h3 class="font-semibold text-xl tracking-tight">Ritual Journey</h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Share your learning path, document experiments with Ritual agents, and inspire the next generation of builders.</p>
+                        <div class="mt-5 text-xs flex items-center gap-x-1.5 text-amber-600 font-medium">
+                            <span>Read &amp; share stories</span> 
+                            <span class="group-hover:translate-x-0.5 transition">→</span>
+                        </div>
+                    </div>
+
+                    <!-- Ritual Hang-Out -->
+                    <div onclick="enterModule('hangout')" class="feature-card group cursor-pointer bg-white border border-slate-200 hover:border-slate-300 rounded-3xl p-6 ritual-shadow">
+                        <div class="flex justify-between items-start">
+                            <div class="w-11 h-11 flex items-center justify-center bg-sky-100 text-sky-600 rounded-2xl mb-5 group-hover:scale-110 transition-transform">🎉</div>
+                        </div>
+                        <h3 class="font-semibold text-xl tracking-tight">Ritual Hang-Out</h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Non-technical social space. Music, gaming, food, travel, RWA — build genuine friendships beyond code.</p>
+                        <div class="mt-5 text-xs flex items-center gap-x-1.5 text-sky-600 font-medium">
+                            <span>Join the hangout</span> 
+                            <span class="group-hover:translate-x-0.5 transition">→</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer bar -->
+            <div class="border-t border-slate-100 bg-slate-50 px-8 py-5 text-xs flex flex-col md:flex-row items-center justify-between gap-y-2 text-slate-500">
+                <div>
+                    Crafted with ❤️ by <span class="font-semibold text-slate-700">Stanelope</span> • Ritual Network Member
+                    <span class="mx-2">•</span> 
+                    <a href="https://github.com/stanelope/ritualjourney" target="_blank" class="hover:text-slate-700 underline decoration-dotted">View on GitHub</a>
+                </div>
+                <div class="flex items-center gap-x-4 text-[10px] font-mono">
+                    <span>RITUAL CHAIN • 1979</span>
+                    <span class="text-emerald-500">●</span>
+                    <span>~350ms BLOCK TIME</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- INITIAL CONNECT MODAL -->
+    <div id="connect-modal" onclick="if (event.target.id === 'connect-modal') hideConnectModal()" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div onclick="event.stopImmediatePropagation()" class="modal w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="px-8 pt-8 pb-5 border-b flex items-center justify-between bg-white">
+                <div>
+                    <span class="font-barlow text-3xl font-bold tracking-tighter">Connect to Ritual Journey</span>
+                    <p class="text-slate-500 text-sm mt-1">Choose how you want to join the decentralized AI community</p>
+                </div>
+                <button onclick="hideConnectModal()" class="text-slate-400 hover:text-slate-600 text-3xl leading-none">&times;</button>
+            </div>
+
+            <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-5">
+                
+                <!-- Option 1: MetaMask / Wallet -->
+                <div class="connect-card border border-slate-200 rounded-3xl p-6 flex flex-col">
+                    <div class="flex items-center gap-x-3 mb-4">
+                        <div class="w-9 h-9 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-xl">🦊</div>
+                        <div>
+                            <div class="font-semibold">MetaMask</div>
+                            <div class="text-xs text-emerald-600 font-medium">RECOMMENDED • RITUAL CHAIN</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1">
+                        <div class="chain-badge text-xs px-3 py-2 rounded-2xl mb-4 text-center">
+                            <div class="font-mono text-emerald-700">Chain ID: <span class="font-bold">1979</span></div>
+                            <div class="text-emerald-600 text-[10px] mt-0.5">RITUAL • 18 decimals • ~350ms</div>
+                        </div>
+                        
+                        <div class="text-xs text-slate-500 mb-2 font-medium">SYSTEM CONTRACTS</div>
+                        <div class="text-[10px] space-y-1 font-mono bg-slate-50 border border-slate-100 p-3 rounded-2xl text-slate-600 max-h-[138px] overflow-auto text-left">
+                            <div>RitualWallet <span class="text-emerald-600">0x532F0dF0...</span></div>
+                            <div>AsyncJobTracker <span class="text-emerald-600">0xC069FFCa...</span></div>
+                            <div>TEEServiceRegistry <span class="text-emerald-600">0x9644e856...</span></div>
+                            <div>Scheduler <span class="text-emerald-600">0x56e776BA...</span></div>
+                            <div>SecretsACL <span class="text-emerald-600">0xf9BF1BC8...</span></div>
+                            <div>AsyncDelivery <span class="text-emerald-600">0x5A16214f...</span></div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="connectMetaMask()" 
+                            class="mt-5 w-full py-3 text-sm font-semibold rounded-3xl bg-orange-600 hover:bg-orange-700 active:bg-orange-800 text-white transition flex items-center justify-center gap-x-2">
+                        <span>Connect MetaMask</span>
+                    </button>
+                </div>
+
+                <!-- Option 2: Email / Google -->
+                <div class="connect-card border border-slate-200 rounded-3xl p-6 flex flex-col">
+                    <div class="flex items-center gap-x-3 mb-4">
+                        <div class="w-9 h-9 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-xl">🔑</div>
+                        <div>
+                            <div class="font-semibold">Email or Google</div>
+                            <div class="text-xs text-slate-500">API-based social login</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 text-sm text-slate-600">
+                        Sign in securely using your Google account or email address. Your Ritual identity is linked to your profile.
+                    </div>
+                    
+                    <div class="space-y-2 mt-auto pt-4">
+                        <button onclick="connectWithGoogle()" 
+                                class="w-full py-3 text-sm font-semibold rounded-3xl border border-slate-300 hover:bg-slate-50 flex items-center justify-center gap-x-2 active:scale-[0.985]">
+                            <span>Continue with Google</span>
+                        </button>
+                        <button onclick="connectWithEmail()" 
+                                class="w-full py-3 text-sm font-semibold rounded-3xl border border-slate-300 hover:bg-slate-50 flex items-center justify-center gap-x-2 active:scale-[0.985]">
+                            <span>Sign in with Email</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Option 3: X / Twitter -->
+                <div class="connect-card border border-slate-200 rounded-3xl p-6 flex flex-col">
+                    <div class="flex items-center gap-x-3 mb-4">
+                        <div class="w-9 h-9 bg-black text-white rounded-2xl flex items-center justify-center text-xl">𝕏</div>
+                        <div>
+                            <div class="font-semibold">X (Twitter)</div>
+                            <div class="text-xs text-slate-500">Social connect via Ritual OAuth</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 text-sm text-slate-600">
+                        Connect your X account to instantly link your Ritual profile and join community conversations.
+                    </div>
+                    
+                    <button onclick="connectWithX()" 
+                            class="mt-auto w-full py-3 text-sm font-semibold rounded-3xl bg-black hover:bg-slate-950 active:bg-black text-white transition flex items-center justify-center gap-x-2">
+                        <span>Connect with 𝕏</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="px-8 pb-6 text-center">
+                <button onclick="hideConnectModal()" class="text-xs text-slate-400 hover:text-slate-500">Continue exploring as guest →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[200] space-y-2"></div>
+
+    <script>
+        // Tailwind script configuration
+        function initTailwind() {
+            document.documentElement.style.setProperty('--accent', '#111827');
+            
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            'barlow': ['Barlow', 'Inter', 'system-ui', 'sans-serif']
+                        }
+                    }
+                }
+            };
+        }
+
+        // Show initial connect modal on load
+        function showInitialModal() {
+            const modal = document.getElementById('connect-modal');
+            // Show modal after short delay for polish
+            setTimeout(() => {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }, 650);
+        }
+
+        function hideConnectModal() {
+            const modal = document.getElementById('connect-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Simulate wallet connection
+        let isConnected = false;
+        let connectedAddress = '';
+        let connectedMethod = '';
+
+        function updateHeaderUser(isConnectedState, address = '', method = '') {
+            const container = document.getElementById('header-user-section');
+            
+            if (isConnectedState && address) {
+                const shortAddr = address.length > 10 ? address.substring(0, 6) + '...' + address.substring(address.length - 4) : address;
+                container.innerHTML = `
+                    <div class="flex items-center gap-x-2 bg-white border border-slate-200 pl-1.5 pr-4 py-1.5 rounded-3xl shadow-sm">
+                        <div class="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-2xl flex items-center justify-center text-white text-xs font-bold ring-2 ring-white">
+                            ${method === 'metamask' ? '🦊' : method === 'google' ? 'G' : '𝕏'}
+                        </div>
+                        <div class="text-sm">
+                            <div class="font-semibold text-slate-800">${shortAddr}</div>
+                            <div class="text-[10px] text-emerald-600 -mt-0.5">Connected • Ritual Testnet</div>
+                        </div>
+                        <button onclick="disconnectWallet()" class="ml-1 text-xs px-2.5 py-1 text-slate-400 hover:text-red-500">×</button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button onclick="showConnectModal()" class="px-5 py-2 text-sm font-semibold rounded-3xl bg-slate-900 hover:bg-black text-white flex items-center gap-x-2 shadow-sm hover:shadow-md active:scale-[0.985] transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2" />
+                        </svg>
+                        <span>Connect</span>
+                    </button>
+                `;
+            }
+        }
+
+        function connectMetaMask() {
+            // Simulate MetaMask connection
+            const modal = document.getElementById('connect-modal');
+            
+            // Fake successful connection
+            connectedAddress = '0x' + Math.random().toString(16).substring(2, 10) + '...' + Math.random().toString(16).substring(2, 6);
+            connectedMethod = 'metamask';
+            isConnected = true;
+            
+            hideConnectModal();
+            
+            // Update header
+            updateHeaderUser(true, connectedAddress, 'metamask');
+            
+            // Show success toast
+            showToast('MetaMask connected successfully to Ritual Chain (1979)', 'success');
+            
+            // Bonus: show chain confirmation in preview pane briefly
+            setTimeout(() => {
+                const pane = document.getElementById('preview-pane');
+                pane.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="text-4xl">🦊</div>
+                        <div class="flex-1">
+                            <div class="font-semibold text-xl">Wallet Connected</div>
+                            <div class="font-mono text-emerald-600 text-sm">${connectedAddress}</div>
+                            
+                            <div class="mt-4 text-sm">
+                                <div class="font-medium mb-1 text-slate-700">Ritual Testnet Status</div>
+                                <div class="grid grid-cols-2 gap-x-4 text-xs">
+                                    <div class="flex justify-between py-px"><span class="text-slate-500">Chain ID</span> <span class="font-mono font-semibold">1979</span></div>
+                                    <div class="flex justify-between py-px"><span class="text-slate-500">Block Time</span> <span class="font-mono font-semibold">~350ms</span></div>
+                                    <div class="flex justify-between py-px"><span class="text-slate-500">Currency</span> <span class="font-mono font-semibold">RITUAL</span></div>
+                                    <div class="flex justify-between py-px"><span class="text-slate-500">Decimals</span> <span class="font-mono font-semibold">18</span></div>
+                                </div>
+                            </div>
+                            
+                            <button onclick="resetPreview(); showToast('Thanks for connecting! Explore the dApp modules.')" class="mt-5 text-xs px-4 py-2 rounded-2xl border border-emerald-200 text-emerald-700 hover:bg-emerald-50 font-medium">Continue to dApp →</button>
+                        </div>
+                    </div>
+                `;
+            }, 900);
+        }
+
+        function connectWithGoogle() {
+            hideConnectModal();
+            connectedAddress = 'stanelope@ritual.dev';
+            connectedMethod = 'google';
+            isConnected = true;
+            updateHeaderUser(true, connectedAddress, 'google');
+            showToast('Signed in with Google. Welcome to Ritual Journey!', 'success');
+        }
+
+        function connectWithEmail() {
+            hideConnectModal();
+            const email = prompt('Enter your email address:', 'you@ritual.dev') || 'member@ritual.dev';
+            connectedAddress = email;
+            connectedMethod = 'email';
+            isConnected = true;
+            updateHeaderUser(true, connectedAddress, 'email');
+            showToast('Email verification link sent. You are now connected.', 'success');
+        }
+
+        function connectWithX() {
+            hideConnectModal();
+            connectedAddress = '@stanelope';
+            connectedMethod = 'x';
+            isConnected = true;
+            updateHeaderUser(true, connectedAddress, 'x');
+            showToast('Connected via X. Your Ritual profile is now linked.', 'success');
+        }
+
+        function disconnectWallet() {
+            isConnected = false;
+            connectedAddress = '';
+            connectedMethod = '';
+            updateHeaderUser(false);
+            showToast('Disconnected from Ritual Journey', 'info');
+            resetPreview();
+        }
+
+        function showConnectModal() {
+            const modal = document.getElementById('connect-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // Toast notifications
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bg = 'bg-emerald-600';
+            if (type === 'info') bg = 'bg-slate-700';
+            if (type === 'error') bg = 'bg-red-600';
+            
+            toast.className = `toast max-w-xs px-5 py-3.5 ${bg} text-white text-sm font-medium shadow-xl rounded-3xl flex items-center gap-x-3`;
+            toast.innerHTML = `
+                <div class="flex-1">${message}</div>
+                <button onclick="this.parentElement.remove()" class="text-white/70 hover:text-white text-xl leading-none">&times;</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                if (toast.parentElement) toast.parentElement.removeChild(toast);
+            }, 5200);
+        }
+
+        // Resource Preview System
+        const resourcePreviews = {
+            'ritual-net': {
+                title: 'Ritual Network',
+                subtitle: 'ritual.net',
+                description: 'Ritual is a lab for autonomous intelligence. Build agents that outlive their operators, hold and spend their own money, and keep secrets under adversarial conditions on the Ritual Chain.',
+                highlights: ['Autonomous agents with state & identity', 'On-chain LLM inference & scheduling', 'Privacy-preserving execution (TEE + ZK)', 'First L1 purpose-built for expressive AI compute'],
+                ctaUrl: 'https://ritual.net/',
+                ctaText: 'Visit Ritual Network'
+            },
+            'foundation': {
+                title: 'Ritual Foundation',
+                subtitle: 'ritualfoundation.org',
+                description: 'The Ritual Foundation drives development, growth, and decentralization of the Ritual Chain and its ecosystem. Home to research, grants, and ecosystem initiatives.',
+                highlights: ['Ecosystem grants & builder programs', 'Research publications', 'Developer relations & support', 'Governance & decentralization roadmap'],
+                ctaUrl: 'https://www.ritualfoundation.org/',
+                ctaText: 'Visit Foundation'
+            },
+            'team': {
+                title: 'Ritual Team',
+                subtitle: 'ritualfoundation.org/team',
+                description: 'Meet the team behind Ritual — deep expertise in distributed systems, cryptography, AI, and long-term crypto builders.',
+                highlights: [],
+                ctaUrl: 'https://www.ritualfoundation.org/team',
+                ctaText: 'Meet the Team'
+            },
+            'whitepaper': {
+                title: 'Ritual Whitepaper',
+                subtitle: 'whitepaper.ritualfoundation.org',
+                description: 'The canonical technical whitepaper detailing Ritual Chain architecture, agent lifecycle, delegated execution, attestation, and the vision for autonomous intelligence.',
+                highlights: ['Agent lifecycle & state continuity', 'TEE + cryptographic primitives', 'Mechanism design for AI markets', 'Roadmap for expressive on-chain compute'],
+                ctaUrl: 'https://whitepaper.ritualfoundation.org/',
+                ctaText: 'Read Whitepaper'
+            },
+            'docs': {
+                title: 'Ritual Documentation',
+                subtitle: 'docs.ritualfoundation.org',
+                description: 'Complete developer documentation for building on Ritual Chain. Includes quickstarts, system contracts, precompiles, agent examples, and full LLM reference.',
+                highlights: ['Chain ID 1979 quickstart', 'System contracts reference', 'Agent deployment guides', 'LLM inference on-chain examples'],
+                ctaUrl: 'https://docs.ritualfoundation.org/',
+                ctaText: 'Browse Documentation'
+            },
+            'skills': {
+                title: 'Skills Hub',
+                subtitle: 'skills.ritualfoundation.org',
+                description: 'Microsite hosting skills, examples, and harnesses for AI coding assistants building dApps on Ritual. Includes Cursor, OpenClaw, and Hermes examples.',
+                highlights: ['Ready-to-use agent skills', 'Foundry & Hardhat templates', 'On-chain chatbot examples', 'Microsite for AI coding tools'],
+                ctaUrl: 'https://skills.ritualfoundation.org/',
+                ctaText: 'Explore Skills Hub'
+            },
+            'blog': {
+                title: 'Ritual Blog',
+                subtitle: 'ritualfoundation.org/blog',
+                description: 'Official writing from the Ritual team covering research, ecosystem updates, partnerships, and deep technical explorations.',
+                highlights: [],
+                ctaUrl: 'https://www.ritualfoundation.org/blog',
+                ctaText: 'Read the Blog'
+            },
+            'x-fnd': {
+                title: 'X — Ritual Foundation',
+                subtitle: '@ritualfnd',
+                description: 'Official announcements, builder spotlights, and ecosystem updates from the Ritual Foundation.',
+                highlights: [],
+                ctaUrl: 'https://x.com/ritualfnd',
+                ctaText: 'Follow @ritualfnd'
+            },
+            'x-net': {
+                title: 'X — Ritual Network',
+                subtitle: '@ritualnet',
+                description: 'The main Ritual Network account sharing product updates, technical threads, and community highlights.',
+                highlights: [],
+                ctaUrl: 'https://x.com/ritualnet',
+                ctaText: 'Follow @ritualnet'
+            },
+            'discord': {
+                title: 'Ritual Discord',
+                subtitle: 'discord.gg/ritual-net',
+                description: 'The central hub for Ritual builders. Channels for technical discussion, agent development, community hangouts, and announcements.',
+                highlights: ['#builders • #agents • #dev-support', 'Active governance discussions', 'Weekly community calls'],
+                ctaUrl: 'https://discord.com/invite/ritual-net',
+                ctaText: 'Join Discord'
+            },
+            'telegram': {
+                title: 'Ritual Telegram',
+                subtitle: 't.me/ritualchain',
+                description: 'Community chat for Ritual Chain users and builders. Quick updates and discussion.',
+                highlights: [],
+                ctaUrl: 'https://t.me/ritualchain',
+                ctaText: 'Join Telegram'
+            },
+            'linkedin': {
+                title: 'Ritual Foundation on LinkedIn',
+                subtitle: 'linkedin.com/company/ritual-foundation',
+                description: 'Professional updates, job opportunities, and ecosystem news from the Ritual Foundation team.',
+                highlights: [],
+                ctaUrl: 'https://www.linkedin.com/company/ritual-foundation/',
+                ctaText: 'Follow on LinkedIn'
+            },
+            'github': {
+                title: 'Ritual Foundation GitHub',
+                subtitle: 'github.com/ritual-foundation',
+                description: 'Open source repositories for Ritual Chain, skills, examples, and ecosystem tooling.',
+                highlights: ['ritual-dapp-skills', 'Chain configs & deployment', 'Agent examples'],
+                ctaUrl: 'https://github.com/ritual-foundation',
+                ctaText: 'Explore GitHub'
+            },
+            'brandkit': {
+                title: 'Ritual Brand Kit',
+                subtitle: 'Notion',
+                description: 'Official brand assets, guidelines, logos, and usage rules for the Ritual ecosystem.',
+                highlights: [],
+                ctaUrl: 'https://marshy-ermine-6e0.notion.site/Brand-Kit-28880470e38546d1a870b8f2cf903213',
+                ctaText: 'Open Brand Kit'
+            },
+            'siggy': {
+                title: 'Official Siggy Mascot',
+                subtitle: 'siggyhalloween-ritual.xyz',
+                description: 'Siggy — the beloved Ritual mascot. Fun seasonal and community art celebrating the Ritual spirit.',
+                highlights: [],
+                ctaUrl: 'https://siggyhalloween-ritual.xyz/',
+                ctaText: 'Meet Siggy'
+            },
+            'faucet': {
+                title: 'Ritual Testnet Faucet',
+                subtitle: 'faucet.ritualfoundation.org',
+                description: 'Get testnet RITUAL tokens to start building and experimenting on Ritual Chain.',
+                highlights: ['Instant RITUAL drops', 'Daily limits apply', 'Required for gas & testing'],
+                ctaUrl: 'https://faucet.ritualfoundation.org/',
+                ctaText: 'Claim Testnet Tokens'
+            },
+            'explorer': {
+                title: 'Ritual Block Explorer',
+                subtitle: 'explorer.ritualfoundation.org',
+                description: 'Real-time explorer to search blocks, transactions, addresses, agents, and on-chain activity on Ritual Chain.',
+                highlights: ['Search agents & async jobs', 'View system contract interactions', 'Live block feed (~350ms)'],
+                ctaUrl: 'https://explorer.ritualfoundation.org/',
+                ctaText: 'Open Explorer'
+            },
+            'llms': {
+                title: 'Full Ritual LLM Documentation',
+                subtitle: 'docs.ritualfoundation.org/llms-full.txt',
+                description: 'Comprehensive plain-text reference for building LLM-powered agents and applications on Ritual Chain.',
+                highlights: [],
+                ctaUrl: 'https://docs.ritualfoundation.org/llms-full.txt',
+                ctaText: 'View Full Docs'
+            },
+            'dapps-dir': {
+                title: 'Community Testnet dApps Directory',
+                subtitle: 'Google Sheets',
+                description: 'Living spreadsheet of Ritual testnet dApps built by the community. Discover what others are shipping on Ritual Chain.',
+                highlights: ['Curated by Ritual builders', 'Includes skills, agents & full dApps', 'Submit your own project'],
+                ctaUrl: 'https://docs.google.com/spreadsheets/d/1-71yrtMqSRCTAvmshY2K_wDSYproX7GQFybKwkC5IFM/edit?gid=0#gid=0',
+                ctaText: 'Open Directory Spreadsheet'
+            }
+        };
+
+        function showPreview(key) {
+            const data = resourcePreviews[key];
+            if (!data) return;
+            
+            const pane = document.getElementById('preview-pane');
+            
+            let html = `
+                <div>
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <div class="font-bold text-3xl tracking-tighter">${data.title}</div>
+                            <div class="text-emerald-600 text-sm font-mono mt-0.5">${data.subtitle}</div>
+                        </div>
+                        <a href="${data.ctaUrl}" target="_blank" 
+                           class="shrink-0 px-5 py-2 text-xs font-semibold rounded-3xl border border-slate-300 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition flex items-center gap-x-2 active:scale-[0.985]">
+                            ${data.ctaText} <span class="text-base leading-none">↗</span>
+                        </a>
+                    </div>
+                    
+                    <p class="mt-5 text-[15px] leading-relaxed text-slate-600">${data.description}</p>
+            `;
+            
+            if (data.highlights && data.highlights.length > 0) {
+                html += `<div class="mt-6"><div class="uppercase tracking-widest text-xs font-semibold text-slate-400 mb-2.5">KEY HIGHLIGHTS</div>`;
+                html += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">`;
+                data.highlights.forEach(h => {
+                    html += `<div class="flex gap-x-2 text-sm"><span class="text-emerald-500 mt-0.5">→</span> <span class="text-slate-700">${h}</span></div>`;
+                });
+                html += `</div></div>`;
+            }
+            
+            html += `</div>`;
+            
+            pane.innerHTML = html;
+            pane.style.borderColor = '#e2e8f0';
+        }
+
+        function resetPreview() {
+            const pane = document.getElementById('preview-pane');
+            pane.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full text-center py-12">
+                    <div class="w-16 h-16 mx-auto mb-5 opacity-40">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#64748b">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2 2 2 0 012 2v2a2 2 0 01-2 2" />
+                        </svg>
+                    </div>
+                    <p class="text-slate-400 max-w-xs">Hover over any link in the left sidebar to instantly preview the page content here.</p>
+                    <p class="text-[10px] text-slate-400 mt-4 font-mono tracking-[1px]">RITUAL JOURNEY • BUILT BY STANELOPE</p>
+                </div>
+            `;
+            pane.style.borderColor = '#e2e8f0';
+        }
+
+        // dApp Theme Toggle (White / Dark for dApp section)
+        let currentDappTheme = 'white';
+
+        function setDappTheme(theme) {
+            const dappSection = document.getElementById('dapp-section');
+            const whiteBtn = document.getElementById('dapp-white-btn');
+            const darkBtn = document.getElementById('dapp-dark-btn');
+            
+            if (theme === 'dark') {
+                dappSection.style.backgroundColor = '#0f172a';
+                dappSection.style.color = '#e2e8f0';
+                dappSection.querySelectorAll('.feature-card').forEach(card => {
+                    card.style.backgroundColor = '#1e293b';
+                    card.style.borderColor = '#334155';
+                    card.style.color = '#e2e8f0';
+                });
+                whiteBtn.classList.remove('bg-white', 'shadow-sm', 'border-slate-200', 'text-slate-800');
+                whiteBtn.classList.add('text-slate-400');
+                darkBtn.classList.add('bg-slate-700', 'text-white', 'shadow-sm');
+                currentDappTheme = 'dark';
+            } else {
+                dappSection.style.backgroundColor = '';
+                dappSection.style.color = '';
+                dappSection.querySelectorAll('.feature-card').forEach(card => {
+                    card.style.backgroundColor = '';
+                    card.style.borderColor = '';
+                    card.style.color = '';
+                });
+                darkBtn.classList.remove('bg-slate-700', 'text-white', 'shadow-sm');
+                whiteBtn.classList.add('bg-white', 'shadow-sm', 'border-slate-200', 'text-slate-800');
+                currentDappTheme = 'white';
+            }
+        }
+
+        // Global dark mode toggle
+        function toggleGlobalTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                document.body.style.backgroundColor = '';
+                document.body.style.color = '';
+            } else {
+                html.classList.add('dark');
+                document.body.style.backgroundColor = '#0f172a';
+                document.body.style.color = '#e2e8f0';
+            }
+        }
+
+        // Enter dApp Module (demo interactions)
+        function enterModule(module) {
+            const pane = document.getElementById('preview-pane');
+            
+            if (module === 'onboarding') {
+                pane.innerHTML = `
+                    <div class="max-w-md">
+                        <div class="font-bold text-2xl tracking-tight mb-1">Ritual Onboarding</div>
+                        <p class="text-sm text-slate-600 mb-6">Create your decentralized identity on Ritual Chain.</p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs font-medium text-slate-500 block mb-1">DISPLAY NAME</label>
+                                <input type="text" value="Stanelope" class="w-full border border-slate-200 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-300">
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium text-slate-500 block mb-1">PRIMARY ROLE / SKILL</label>
+                                <select class="w-full border border-slate-200 rounded-2xl px-4 py-2.5 text-sm focus:outline-none">
+                                    <option>AI Builder / LLM Developer</option>
+                                    <option>Smart Contract Engineer</option>
+                                    <option>Artist &amp; Designer</option>
+                                    <option>Researcher</option>
+                                    <option>Community Builder</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium text-slate-500 block mb-1">SHORT BIO</label>
+                                <textarea class="w-full border border-slate-200 rounded-2xl px-4 py-3 text-sm h-20 resize-y focus:outline-none">Exploring the intersection of autonomous agents and on-chain execution on Ritual.</textarea>
+                            </div>
+                        </div>
+                        
+                        <button onclick="completeOnboarding(this)" class="mt-6 w-full py-3 rounded-3xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm active:scale-[0.985]">Create On-Chain Profile</button>
+                    </div>
+                `;
+            } else if (module === 'connect') {
+                pane.innerHTML = `
+                    <div>
+                        <div class="font-bold text-2xl tracking-tight">Ritual Connect</div>
+                        <p class="text-sm text-slate-600 mt-1 mb-5">Find collaborators and build together.</p>
+                        
+                        <div class="flex gap-2 mb-4">
+                            <input type="text" placeholder="Search builders, skills, or interests..." class="flex-1 border border-slate-200 rounded-3xl px-5 text-sm py-2.5 focus:outline-none">
+                            <button class="px-6 rounded-3xl bg-slate-900 text-white text-sm font-medium">Search</button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                            <div class="border border-slate-200 rounded-2xl p-4">
+                                <div class="flex items-center gap-x-3">
+                                    <div class="w-9 h-9 bg-violet-200 rounded-2xl flex-shrink-0"></div>
+                                    <div>
+                                        <div class="font-semibold">Elena Voss</div>
+                                        <div class="text-xs text-violet-600">LLM Agent Engineer • 42 collabs</div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 flex flex-wrap gap-1">
+                                    <span class="text-xs bg-violet-50 text-violet-700 px-2.5 py-px rounded">Agents</span>
+                                    <span class="text-xs bg-violet-50 text-violet-700 px-2.5 py-px rounded">ONNX</span>
+                                </div>
+                                <button onclick="requestCollab(this)" class="mt-4 text-xs w-full py-2 rounded-2xl border border-violet-200 text-violet-700 font-medium hover:bg-violet-50">Request Collaboration</button>
+                            </div>
+                            
+                            <div class="border border-slate-200 rounded-2xl p-4">
+                                <div class="flex items-center gap-x-3">
+                                    <div class="w-9 h-9 bg-amber-200 rounded-2xl flex-shrink-0"></div>
+                                    <div>
+                                        <div class="font-semibold">Kai Nakamura</div>
+                                        <div class="text-xs text-amber-600">Smart Contract Dev • 19 collabs</div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 flex flex-wrap gap-1">
+                                    <span class="text-xs bg-amber-50 text-amber-700 px-2.5 py-px rounded">Solidity</span>
+                                    <span class="text-xs bg-amber-50 text-amber-700 px-2.5 py-px rounded">Async Jobs</span>
+                                </div>
+                                <button onclick="requestCollab(this)" class="mt-4 text-xs w-full py-2 rounded-2xl border border-amber-200 text-amber-700 font-medium hover:bg-amber-50">Request Collaboration</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (module === 'journey') {
+                pane.innerHTML = `
+                    <div>
+                        <div class="font-bold text-2xl tracking-tight mb-4">Ritual Journey Feed</div>
+                        
+                        <div class="space-y-4">
+                            <div class="border-l-2 border-amber-400 pl-4">
+                                <div class="flex justify-between text-xs"><span class="font-semibold">@stanelope</span> <span class="text-slate-400">2d ago</span></div>
+                                <div class="mt-1 text-sm">"Just deployed my first async LLM agent on Ritual using the Scheduler precompile. The 350ms block time makes feedback loops feel native. Excited to share the full journey soon."</div>
+                                <div class="mt-2 text-xs text-amber-600">+ 34 reactions • 12 comments</div>
+                            </div>
+                            
+                            <div class="border-l-2 border-amber-400 pl-4">
+                                <div class="flex justify-between text-xs"><span class="font-semibold">@ritualbuilder42</span> <span class="text-slate-400">5d ago</span></div>
+                                <div class="mt-1 text-sm">"Week 3 of building on Ritual: Learned how to use TEEServiceRegistry for private model inference. The ecosystem docs + Skills Hub made onboarding incredibly smooth."</div>
+                                <div class="mt-2 text-xs text-amber-600">+ 71 reactions • 29 comments</div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="showToast('Thanks! In a real dApp this would open the full publishing flow.')" class="mt-5 text-xs px-5 py-2 rounded-3xl border border-amber-200 text-amber-700 hover:bg-amber-50">Share your own journey →</button>
+                    </div>
+                `;
+            } else if (module === 'hangout') {
+                pane.innerHTML = `
+                    <div>
+                        <div class="font-bold text-2xl tracking-tight">Ritual Hang-Out</div>
+                        <p class="text-sm text-slate-600 mt-1">Non-technical spaces to build real friendships.</p>
+                        
+                        <div class="mt-5 flex flex-wrap gap-2">
+                            <div onclick="joinTopic(this)" class="cursor-pointer px-5 py-2 text-sm rounded-3xl border border-sky-200 hover:bg-sky-50 text-sky-700">🎵 Music &amp; Singing</div>
+                            <div onclick="joinTopic(this)" class="cursor-pointer px-5 py-2 text-sm rounded-3xl border border-sky-200 hover:bg-sky-50 text-sky-700">🍜 Food &amp; Cooking</div>
+                            <div onclick="joinTopic(this)" class="cursor-pointer px-5 py-2 text-sm rounded-3xl border border-sky-200 hover:bg-sky-50 text-sky-700">🎮 Gaming</div>
+                            <div onclick="joinTopic(this)" class="cursor-pointer px-5 py-2 text-sm rounded-3xl border border-sky-200 hover:bg-sky-50 text-sky-700">✈️ Travel &amp; Lifestyle</div>
+                            <div onclick="joinTopic(this)" class="cursor-pointer px-5 py-2 text-sm rounded-3xl border border-sky-200 hover:bg-sky-50 text-sky-700">🏋️ Health &amp; Fitness</div>
+                            <div onclick="joinTopic(this)" class="cursor-pointer px-5 py-2 text-sm rounded-3xl border border-sky-200 hover:bg-sky-50 text-sky-700">🧠 RWA &amp; Real World</div>
+                        </div>
+                        
+                        <div class="mt-6 text-xs text-slate-400">Active now in <span class="font-semibold text-sky-600">Music &amp; Singing</span> • 184 members online</div>
+                    </div>
+                `;
+            }
+        }
+
+        function completeOnboarding(btn) {
+            btn.outerHTML = `<div class="mt-4 px-5 py-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-2xl text-sm font-medium flex items-center gap-x-2"><span>✅ Profile created on-chain. Welcome to Ritual Journey, Stanelope!</span></div>`;
+            showToast('On-chain profile created successfully!', 'success');
+        }
+
+        function requestCollab(btn) {
+            btn.outerHTML = `<div class="mt-3 text-xs text-center text-emerald-600 font-medium">Collaboration request sent! They will see it in their dashboard.</div>`;
+        }
+
+        function joinTopic(el) {
+            el.style.backgroundColor = '#0ea47a';
+            el.style.color = 'white';
+            el.style.borderColor = '#0ea47a';
+            showToast('Joined the topic! In the full dApp you would enter the live chat.', 'success');
+        }
+
+        // Keyboard support
+        function initKeyboard() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === '?' && document.activeElement.tagName === 'BODY') {
+                    e.preventDefault();
+                    const pane = document.getElementById('preview-pane');
+                    if (pane) resetPreview();
+                }
+            });
+            
+            // Easter egg: press "r" to reset preview
+            document.addEventListener('keypress', function(e) {
+                if (e.key.toLowerCase() === 'r' && document.activeElement.tagName === 'BODY') {
+                    resetPreview();
+                }
+            });
+        }
+
+        // Initialize everything
+        function initializeWebsite() {
+            initTailwind();
+            
+            // Show connect modal on first load
+            showInitialModal();
+            
+            // Keyboard shortcuts
+            initKeyboard();
+            
+            // Make sure dApp theme buttons are correct initially
+            const whiteBtn = document.getElementById('dapp-white-btn');
+            if (whiteBtn) whiteBtn.classList.add('bg-white', 'shadow-sm', 'border-slate-200', 'text-slate-800');
+            
+            // Optional: Preload a nice preview after 4 seconds if user hasn't interacted
+            setTimeout(() => {
+                const pane = document.getElementById('preview-pane');
+                if (pane && pane.innerHTML.includes('Hover over any link')) {
+                    // Uncomment to auto-preview something nice:
+                    // showPreview('docs');
+                }
+            }, 4200);
+            
+            // Accessibility note
+            console.log('%c[Ritual Journey] Professional dApp website initialized. Built by Stanelope for Ritual Network.', 'color:#64748b');
+        }
+
+        // Boot the site
+        window.onload = initializeWebsite;
+    </script>
+</body>
+</html>
