@@ -1,4 +1,4 @@
-# 🚀 Ritual Journey
+# 🚀 Ritual Journey Guide
 
 ## Dedicated to Exploring the Intersection of Web3 and Artificial Intelligence of RITUAL NETWORK
 
