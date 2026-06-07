@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritual Community Roles Guide</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,800;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Link styles from parent workspace -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* Specific page styles for Roles Guide */
+        .roles-body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            font-family: var(--font-body);
+        }
+
+        .roles-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .roles-header h1 {
+            font-family: var(--font-heading);
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .roles-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .roles-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            margin-bottom: 50px;
+        }
+
+        .role-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 24px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .role-card:hover {
+            box-shadow: var(--hover-shadow-blend);
+            transform: translateY(-2px);
+        }
+
+        .role-badge-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid var(--border-color);
+            padding-right: 20px;
+            text-align: center;
+        }
+
+        .role-icon-wrapper {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .role-name {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .role-status {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .role-details h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .role-details p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .role-requirements {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .role-requirements h4 {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .requirements-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+        }
+
+        .requirements-list li {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .requirements-list li::before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: #34c759;
+            font-size: 11px;
+        }
+
+        /* Role-specific coloring */
+        /* 1. Initiate (Grey) */
+        .role-initiate .role-icon-wrapper { background-color: rgba(142, 142, 147, 0.15); color: #8e8e93; }
+        .role-initiate .role-name { color: #8e8e93; }
+        
+        /* 2. Ascendant (Mustard) */
+        .role-ascendant .role-icon-wrapper { background-color: rgba(210, 159, 19, 0.15); color: #d29f13; }
+        .role-ascendant .role-name { color: #d29f13; }
+
+        /* 3. Bitty (Blue) */
+        .role-bitty .role-icon-wrapper { background-color: rgba(0, 122, 255, 0.15); color: #007aff; }
+        .role-bitty .role-name { color: #007aff; }
+
+        /* 4. Ritty (Gradient Purple/White) */
+        .role-ritty .role-icon-wrapper { 
+            background: linear-gradient(135deg, #af52de 0%, #ffffff 100%); 
+            color: #4f2875; 
+            border: 1px solid rgba(175, 82, 222, 0.4);
+        }
+        .role-ritty .role-name { 
+            background: linear-gradient(135deg, #af52de, #a8a8af); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            color: #af52de; 
+            display: inline-block;
+        }
+
+        /* 5. Ritualist (Gradient Green/White) */
+        .role-ritualist .role-icon-wrapper { 
+            background: linear-gradient(135deg, #34c759 0%, #ffffff 100%); 
+            color: #125424; 
+            border: 1px solid rgba(52, 199, 89, 0.4);
+        }
+        .role-ritualist .role-name { 
+            background: linear-gradient(135deg, #34c759, #8e8e93); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            color: #34c759;
+            display: inline-block;
+        }
+
+        /* 6. Radiant Ritualist (Gradient Yellow/White) */
+        .role-radiant .role-icon-wrapper { 
+            background: linear-gradient(135deg, #ffcc00 0%, #ffffff 100%); 
+            color: #7a6100; 
+            border: 1px solid rgba(255, 204, 0, 0.5); 
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.2); 
+        }
+        .role-radiant .role-name { 
+            background: linear-gradient(135deg, #ffcc00, #9c9c9c); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            color: #ffcc00; 
+            text-shadow: 0 0 4px rgba(255, 204, 0, 0.1);
+            display: inline-block;
+        }
+
+        /* 7. Mage (Magenta) */
+        .role-mage .role-icon-wrapper { background-color: rgba(255, 0, 255, 0.15); color: #ff00ff; }
+        .role-mage .role-name { color: #ff00ff; }
+
+        /* 8. Zealot (Gradient Blue/Purple) */
+        .role-zealot .role-icon-wrapper { 
+            background: linear-gradient(135deg, #007aff 0%, #af52de 100%); 
+            color: #ffffff; 
+            border: 1px solid rgba(0, 122, 255, 0.3); 
+        }
+        .role-zealot .role-name { 
+            background: linear-gradient(135deg, #007aff, #af52de); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            color: #007aff;
+            display: inline-block;
+        }
+
+        /* Command Sheet & Legend Styling */
+        .roles-footer-section {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .command-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .command-syntax {
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-orange);
+            margin-bottom: 6px;
+        }
+
+        .command-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .way-footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+        }
+
+        .way-footer h4 {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .way-footer p {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 600px) {
+            .role-card {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .role-badge-col {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding-right: 0;
+                padding-bottom: 16px;
+            }
+        }
+    </style>
+</head>
+<body style="height: auto; overflow: auto; background-color: var(--bg-primary);">
+
+    <div class="roles-body">
+        
+        <!-- Header -->
+        <div class="roles-header">
+            <h1>HOW TO GET ROLES</h1>
+            <p>Your guide to rank advancement, contribution milestones, and specialized credentials within the Ritual Community ecosystem.</p>
+        </div>
+
+        <!-- Grid of Roles -->
+        <div class="roles-grid">
+            
+            <!-- 1. Initiate -->
+            <div class="role-card role-initiate" id="initiate">
+                <div class="role-badge-col">
+                    <div class="role-icon-wrapper">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+                    <span class="role-name">Initiate</span>
+                    <span class="role-status">Verified</span>
+                </div>
+                <div class="role-details">
+                    <h3>Welcome to Ritual</h3>
+                    <p>You have successfully joined the community and completed the verification process. This is your first step into the world of Ritual.</p>
+                    <div class="role-requirements">
+                        <h4>Status</h4>
+                        <span class="font-mono" style="font-size: 12px; color: var(--text-secondary);">Community Member</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Ascendant -->
+            <div class="role-card role-ascendant" id="ascendant">
+                <div class="role-badge-col">
+                    <div class="role-icon-wrapper">
+                        <i class="fa-solid fa-angles-up"></i>
+                    </div>
+                    <span class="role-name">Ascendant</span>
+                    <span class="role-status">Engaged</span>
+                </div>
+                <div class="role-details">
+                    <h3>Taking the First Steps</h3>
+                    <p>You have taken your first steps beyond initiation and started actively engaging with the community.</p>
+                    <div class="role-requirements">
+                        <h4>Requirements</h4>
+                        <ul class="requirements-list">
+                            <li>10 Blessings</li>
+                            <li>10 Curses</li>
+                            <li>Reach Level 11 (Limbo)</li>
+                        </ul>
+                        <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
+                            <strong>Check Your Progress:</strong> Use <code>/rank</code> at the <code>#rank</code> channel to view your standing.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Bitty -->
+            <div class="role-card role-bitty" id="bitty">
+                <div class="role-badge-col">
+                    <div class="role-icon-wrapper">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <span class="role-name">Bitty</span>
+                    <span class="role-status">Contributor</span>
+                </div>
+                <div class="role-details">
+                    <h3>Core Contributor</h3>
+                    <p>The starting role for active contributors who commit to pushing ecosystem value forward.</p>
+                    <div class="role-requirements">
+                        <h4>Show Commitment By:</h4>
+                        <ul class="requirements-list" style="grid-template-columns: 1fr;">
+                            <li>Creating quality posts, threads, guides, reviews, and educational content.</li>
+                            <li>Sharing creative memes and community content.</li>
+                            <li>Participating in events and activities.</li>
+                            <li>Supporting discussions and welcoming newcomers.</li>
+                            <li>Staying active across Ritual channels.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Ritty -->
+            <div class="role-card role-ritty" id="ritty">
+                <div class="role-badge-col">
+                    <div class="role-icon-wrapper">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <span class="role-name">Ritty</span>
+                    <span class="role-status">Dedicated</span>
+                </div>
+                <div class="role-details">
+                    <h3>Dedicated & Trusted</h3>
+                    <p>Awarded to dedicated, trusted, and long-standing community members who continually support discussions.</p>
+                    <div class="role-requirements">
+                        <h4>Benefits</h4>
+                        <ul class="requirements-list">
+                            <li>Exclusive community spaces</li>
+                            <li>Greater recognition in Ritual</li>
+                            <li>Involvement in core initiatives</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Ritualist -->
+            <div class="role-card role-ritualist" id="ritualist">
+                <div class="role-badge-col">
+                    <div class="role-icon-wrapper">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <span class="role-name">Ritualist</span>
+                    <span class="role-status">Pillar</span>
+                </div>
+                <div class="role-details">
+                    <h3>Community Pillar</h3>
+                    <p>The backbone of the Ritual community, recognized for both activity and ecosystem impact.</p>
+                    <div class="role-requirements">
+                        <h4>Responsibilities</h4>
+                        <ul class="requirements-list">
+                            <li>Create meaningful content</li>
+                            <li>Support and guide members</li>
+                            <li>Drive discussion & culture</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Radiant Ritualist -->
+            <div class="role-card role-radiant" id="radiant-ritualist">
+                <div class="role-badge-col">
+                    <div class="role-icon-wrapper">
+                        <i class="fa-solid fa-circle-radiation"></i>
+                    </div>
+                    <span class="role-name">Radiant Ritualist</span>
+                    <span class="role-status">Leader</span>
+                </div>
+                <div class="role-details">
+                    <h3>Exceptional Leadership</h3>
+                    <p>The highest community distinction. Awarded to members representing dedication, influence, and excellence.</p>
+                    <div class="role-requirements">
+                        <h4>Criteria</h4>
+                        <ul class="requirements-list">
+                            <li>Exceptional leadership</li>
+                            <li>Lasting ecosystem contributions</li>
+                            <li>Inspiring and supporting others</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Mage -->
+            <div class="role-card role-mage" id="mage">
+                <div class="role-badge-col">
+                    <div class="role-icon-wrapper">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <span class="role-name">Mage</span>
+                    <span class="role-status">Artist</span>
+                </div>
+                <div class="role-details">
+                    <h3>Artists & Creators</h3>
+                    <p>Create original artwork, visual assets, and UI components inspired by Ritual to contribute to the visual identity of the ecosystem.</p>
+                    <div class="role-requirements">
+                        <h4>Selection</h4>
+                        <span class="font-mono" style="font-size: 12px; color: var(--text-secondary);">Manual Application & Review</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Zealot -->
+            <div class="role-card role-zealot" id="zealot">
+                <div class="role-badge-col">
+                    <div class="role-icon-wrapper">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <span class="role-name">Zealot</span>
+                    <span class="role-status">Ambassador</span>
+                </div>
+                <div class="role-details">
+                    <h3>Ambassadors & advocates</h3>
+                    <p>Help expand Ritual's reach, represent Ritual across platforms, and educate new audiences to support ecosystem growth.</p>
+                    <div class="role-requirements">
+                        <h4>Ambassador Tasks</h4>
+                        <ul class="requirements-list">
+                            <li>Create high-quality content</li>
+                            <li>Educate new audiences</li>
+                            <li>Support growth initiatives</li>
+                        </ul>
+                        <div style="margin-top: 10px; font-size: 11px; text-transform: uppercase; font-weight: 600; color: var(--text-secondary);">
+                            Selection: Application & Approval Process
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Command Sheet -->
+        <div class="roles-footer-section">
+            <h3 class="section-subtitle">🏮 Essential Bot Commands</h3>
+            <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 20px;">Use these commands in the <code>#siggys-shrine</code> channel to perform community actions and view stats:</p>
+            
+            <div class="commands-grid">
+                <div class="command-card">
+                    <div class="command-syntax">/bless</div>
+                    <div class="command-desc">Give a blessing to another member.</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-syntax">/curse</div>
+                    <div class="command-desc">Cast a curse.</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-syntax">/stats</div>
+                    <div class="command-desc">View your blessings, curses, and activity statistics.</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-syntax">/journey</div>
+                    <div class="command-desc">Check your progression requirements and advancement path.</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-syntax">/rank</div>
+                    <div class="command-desc">View your current role and community standing.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Way Footer -->
+        <div class="way-footer">
+            <h4>🏮 The Ritual Way</h4>
+            <p>Learn continuously. Contribute consistently. Support others. Build with purpose.</p>
+            <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">Every role is earned through participation, character, and commitment to the Ritual community.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
